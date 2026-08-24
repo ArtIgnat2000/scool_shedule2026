@@ -55,7 +55,6 @@
             border-radius: 12px;
             margin-bottom: 15px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-            position: relative;
             border: 2px solid var(--header-border);
         }
 
@@ -75,45 +74,13 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             border: 2px solid white;
-            position: relative;
-            overflow: hidden;
             margin: 0 5px;
         }
 
         .meal-link:hover {
             transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
             background: linear-gradient(135deg, #357ABD, #4682B4);
         }
-
-        .upload-section {
-            margin-top: 15px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            border: 2px dashed white;
-        }
-
-        .upload-btn {
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #333;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-            margin: 5px;
-        }
-
-        .upload-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        #fileInput { display: none; }
 
         .container {
             max-width: 800px;
@@ -146,8 +113,8 @@
             white-space: nowrap;
         }
 
-        button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
-        button.active { background-color: var(--primary-color); transform: scale(1.05); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        button:hover { transform: translateY(-2px); }
+        button.active { background-color: var(--primary-color); transform: scale(1.05); }
 
         button:nth-child(1) { background-color: #ff6b6b; }
         button:nth-child(2) { background-color: #4ecdc4; }
@@ -172,7 +139,6 @@
             margin: 10px 0;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
         }
 
         th, td {
@@ -193,39 +159,13 @@
         tr:nth-child(even) { background-color: #f0f4f8; }
         tr:hover { background-color: #e9f5ff; }
 
-        .info-text {
-            background: #fff3cd;
-            padding: 10px;
+        .error-msg {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
             border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 4px solid #ffc107;
-            font-size: 0.9rem;
-        }
-
-        .status-message {
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
             text-align: center;
-            font-weight: bold;
-        }
-
-        .status-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .status-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .status-loading {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
+            display: none;
         }
 
         footer {
@@ -233,17 +173,12 @@
             margin-top: 20px;
             color: rgba(255, 255, 255, 0.85);
             font-size: 0.8rem;
-            padding: 8px;
-            border-radius: 8px;
         }
 
         @media (max-width: 600px) {
             body { padding: 8px; }
-            header { padding: 10px 8px; }
             h1 { font-size: 1.5rem; }
             .meal-link { padding: 8px 16px; font-size: 1rem; }
-            .container { padding: 12px; }
-            .buttons { gap: 6px; margin-bottom: 15px; }
             button { padding: 10px 12px; font-size: 0.85rem; min-width: 85px; }
             th, td { padding: 8px 6px; font-size: 0.9rem; }
         }
@@ -263,26 +198,11 @@
             <a href="https://artignat2000.github.io/RaspisCanicyl/" class="meal-link">🌴 КАНИКУЛЫ</a>
             <a href="https://artignat2000.github.io/DopSchedule/" class="meal-link">💡 ДОП</a>
         </div>
-        
-        <!-- Секция загрузки файла -->
-        <div class="upload-section">
-            <p style="margin: 0 0 10px 0; font-size: 0.95rem;">📄 Загрузить расписание из файла</p>
-            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
-                📁 Выбрать файл schedule.txt
-            </button>
-            <input type="file" id="fileInput" accept=".txt,.text" onchange="handleFileUpload(event)">
-            <button class="upload-btn" onclick="loadDefaultSchedule()" style="background: linear-gradient(135deg, #98FB98, #90EE90);">
-                🔄 Загрузить стандартное
-            </button>
-            <p style="margin: 10px 0 0 0; font-size: 0.8rem; opacity: 0.9;">
-                Файл должен называться <strong>schedule.txt</strong>
-            </p>
-        </div>
     </header>
 
     <div class="container">
-        <div id="statusMessage"></div>
-
+        <div id="errorMsg" class="error-msg"></div>
+        
         <div class="buttons">
             <button onclick="showDay('pn')" class="active">Пн</button>
             <button onclick="showDay('vt')">Вт</button>
@@ -291,7 +211,6 @@
             <button onclick="showDay('pt')">Пт</button>
         </div>
 
-        <!-- Контейнеры для расписания (заполняются из файла) -->
         <div id="pn" class="schedule show"></div>
         <div id="vt" class="schedule"></div>
         <div id="sr" class="schedule"></div>
@@ -302,128 +221,27 @@
     <footer>&copy; 2025</footer>
 
     <script>
-        // Стандартное расписание (загружается если нет файла)
-        const defaultScheduleText = `ПН
-1|8:30–9:10|🧮 Математика
-2|9:30–10:10|📖 Рус.язык
-3|10:20–11:00|🌍 Окр.мир
-4|11:20–12:00|🌳 ПРОГУЛКА
-5|12:20–13:00|📚 Чтение
-6|13:10–13:50|🎮 Развивающие игры
-7|14:00–14:40|👩‍🏫 Классный час
-
-ВТ
-1|8:30–9:10|🌐 Анг/Математика
-2|9:30–10:10|🧮 Математика/Анг
-3|10:20–11:00|🎵 Музыка
-4|11:20–12:00|📖 Рус.яз.
-5|12:20–13:00|🌳 ПРОГУЛКА
-6|13:10–13:50|🏃 ФИЗКУЛЬТУРА
-7|14:00–14:40|📝 СП
-
-СР
-1|8:30–9:10|📖 Рус.язык
-2|9:30–10:10|🧮 Матем
-3|10:20–11:00|📚 Чтение
-4|11:20–12:00|🌳 ПРОГУЛКА
-5|12:20–13:00|🎨 ИЗО
-6|13:10–13:50|🌍 Окр.мир
-7|14:00–14:40|📝 СП
-
-ЧТ
-1|8:30–9:10|📖 Рус.язык
-2|9:30–10:10|🧮 Матем
-3|10:20–11:00|📚 Чтение
-4|11:20–12:00|🌳 ПРОГУЛКА
-5|12:20–13:00|🏃 ФИЗКУЛЬТУРА
-6|13:10–13:50|🔧 Технология
-7|14:00–14:40|💻 В мире информации
-
-ПТ
-1|8:30–9:10|📖 Рус.язык
-2|9:30–10:10|🧮 Матем
-3|10:20–11:00|📚 Чтение
-4|11:20–12:00|🌊 Бассейн
-5|12:20–13:00|🌐 Анг/ИТ
-6|13:10–13:50|💻 ИТ/Анг
-7|14:00–14:40|🌳 ПРОГУЛКА`;
-
-        // При загрузке страницы пытаемся загрузить schedule.txt
-        window.onload = function() {
-            loadScheduleFromFile();
-        };
-
-        // Автоматическая загрузка файла schedule.txt
-        async function loadScheduleFromFile() {
-            showStatus('Загрузка расписания...', 'loading');
-            
+        // Загрузка расписания из внешнего файла
+        async function loadSchedule() {
             try {
                 const response = await fetch('schedule.txt');
+                
                 if (!response.ok) {
-                    throw new Error('Файл не найден');
+                    throw new Error('Файл schedule.txt не найден');
                 }
+                
                 const text = await response.text();
-                parseAndRenderSchedule(text);
-                showStatus('✅ Расписание загружено из schedule.txt', 'success');
+                const schedule = parseSchedule(text);
+                renderSchedule(schedule);
+                
             } catch (error) {
-                console.log('Не удалось загрузить schedule.txt, используем стандартное');
-                loadDefaultSchedule();
+                showError('❌ Не удалось загрузить расписание: ' + error.message);
             }
         }
 
-        // Загрузка стандартного расписания
-        function loadDefaultSchedule() {
-            parseAndRenderSchedule(defaultScheduleText);
-            showStatus('📋 Используется стандартное расписание', 'success');
-        }
-
-        // Обработка ручной загрузки файла
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            showStatus('Чтение файла...', 'loading');
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const text = e.target.result;
-                parseAndRenderSchedule(text);
-                showStatus('✅ Файл успешно загружен!', 'success');
-            };
-            reader.onerror = function() {
-                showStatus('❌ Ошибка чтения файла', 'error');
-            };
-            reader.readAsText(file);
-        }
-
-        // Показать статусное сообщение
-        function showStatus(message, type) {
-            const statusDiv = document.getElementById('statusMessage');
-            statusDiv.className = 'status-message status-' + type;
-            statusDiv.textContent = message;
-            
-            // Автоматически скрыть через 3 секунды для успеха
-            if (type === 'success') {
-                setTimeout(() => {
-                    statusDiv.style.display = 'none';
-                }, 3000);
-            }
-        }
-
-        // Парсинг текста и создание расписания
-        function parseAndRenderSchedule(text) {
-            const schedule = {
-                pn: [],
-                vt: [],
-                sr: [],
-                cht: [],
-                pt: []
-            };
-
-            const lines = text.split('\n');
-            let currentDay = null;
-
-            // Маппинг дней недели
+        // Парсинг текста в объект расписания
+        function parseSchedule(text) {
+            const schedule = { pn: [], vt: [], sr: [], cht: [], pt: [] };
             const dayMap = {
                 'ПН': 'pn', 'ПОНЕДЕЛЬНИК': 'pn',
                 'ВТ': 'vt', 'ВТОРНИК': 'vt',
@@ -432,56 +250,36 @@
                 'ПТ': 'pt', 'ПЯТНИЦА': 'pt'
             };
 
+            let currentDay = null;
+            const lines = text.split('\n');
+
             lines.forEach(line => {
                 line = line.trim();
                 if (!line) return;
 
-                // Проверяем, является ли строка заголовком дня
+                // Определяем день недели
                 const upperLine = line.toUpperCase();
                 for (const [key, value] of Object.entries(dayMap)) {
-                    if (upperLine.includes(key)) {
+                    if (upperLine === key || upperLine.startsWith(key + ' ') || upperLine.startsWith(key + ':')) {
                         currentDay = value;
                         return;
                     }
                 }
 
-                // Если текущий день определён, парсим урок
-                if (currentDay) {
-                    const lesson = parseLessonLine(line);
-                    if (lesson) {
-                        schedule[currentDay].push(lesson);
+                // Парсим урок если день определён
+                if (currentDay && line.includes('|')) {
+                    const parts = line.split('|');
+                    if (parts.length === 3) {
+                        schedule[currentDay].push([
+                            parts[0].trim(),
+                            parts[1].trim(),
+                            parts[2].trim()
+                        ]);
                     }
                 }
             });
 
-            renderSchedule(schedule);
-        }
-
-        // Парсинг одной строки урока
-        function parseLessonLine(line) {
-            // Формат 1: НОМЕР|ВРЕМЯ|ПРЕДМЕТ
-            const pipeFormat = line.split('|');
-            if (pipeFormat.length === 3) {
-                return [pipeFormat[0].trim(), pipeFormat[1].trim(), pipeFormat[2].trim()];
-            }
-
-            // Формат 2: НОМЕР. ВРЕМЯ ПРЕДМЕТ
-            const dotMatch = line.match(/^(\d+)\.\s*(\d+:\d+[–-]\d+:\d+)\s+(.+)$/);
-            if (dotMatch) {
-                return [dotMatch[1], dotMatch[2], dotMatch[3]];
-            }
-
-            // Формат 3: Просто номер и предмет (время берём по умолчанию)
-            const simpleMatch = line.match(/^(\d+)\.\s*(.+)$/);
-            if (simpleMatch) {
-                const times = ['8:30–9:10', '9:30–10:10', '10:20–11:00', '11:20–12:00', 
-                              '12:20–13:00', '13:10–13:50', '14:00–14:40'];
-                const num = parseInt(simpleMatch[1]) - 1;
-                const time = times[num] || '???';
-                return [simpleMatch[1], time, simpleMatch[2]];
-            }
-
-            return null;
+            return schedule;
         }
 
         // Отрисовка расписания
@@ -492,8 +290,8 @@
                 const container = document.getElementById(day);
                 const lessons = schedule[day];
                 
-                if (lessons.length === 0) {
-                    container.innerHTML = '<p style="text-align: center; color: #999;">Нет уроков</p>';
+                if (!lessons || lessons.length === 0) {
+                    container.innerHTML = '<p style="text-align:center;color:#999;">Нет уроков</p>';
                     return;
                 }
 
@@ -507,6 +305,13 @@
             });
         }
 
+        // Показ ошибки
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMsg');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
         // Переключение дней
         function showDay(day) {
             document.querySelectorAll('.buttons button').forEach(btn => {
@@ -514,20 +319,22 @@
             });
             document.querySelector(`button[onclick="showDay('${day}')"]`).classList.add('active');
             
-            document.querySelectorAll('.schedule').forEach(schedule => {
-                schedule.classList.remove('show');
+            document.querySelectorAll('.schedule').forEach(s => {
+                s.classList.remove('show');
             });
             document.getElementById(day).classList.add('show');
         }
 
-        // Обработчики для ссылок
+        // Обработчики ссылок
         document.querySelectorAll('.meal-link').forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-                const url = this.getAttribute('href').trim();
-                window.location.href = url;
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = this.getAttribute('href').trim();
             });
         });
+
+        // Запуск при загрузке страницы
+        loadSchedule();
     </script>
 </body>
 </html>
