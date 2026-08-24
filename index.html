@@ -55,12 +55,25 @@
             border-radius: 12px;
             margin-bottom: 15px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            position: relative;
             border: 2px solid var(--header-border);
         }
 
-        h1 { margin: 0; font-size: 1.8rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
 
-        .meal-link-container { margin-top: 10px; }
+        .subtitle {
+            margin: 5px 0 0;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .meal-link-container {
+            margin-top: 10px;
+        }
 
         .meal-link {
             display: inline-block;
@@ -74,12 +87,34 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             border: 2px solid white;
+            position: relative;
+            overflow: hidden;
             margin: 0 5px;
         }
 
         .meal-link:hover {
             transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
             background: linear-gradient(135deg, #357ABD, #4682B4);
+        }
+
+        .meal-link:active {
+            transform: translateY(0) scale(1);
+        }
+
+        .meal-link::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .meal-link:hover::before {
+            left: 100%;
         }
 
         .container {
@@ -113,8 +148,16 @@
             white-space: nowrap;
         }
 
-        button:hover { transform: translateY(-2px); }
-        button.active { background-color: var(--primary-color); transform: scale(1.05); }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        button.active {
+            background-color: var(--primary-color);
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
 
         button:nth-child(1) { background-color: #ff6b6b; }
         button:nth-child(2) { background-color: #4ecdc4; }
@@ -131,7 +174,9 @@
             border-left: 4px solid var(--header-border);
         }
 
-        .schedule.show { display: block; }
+        .schedule.show {
+            display: block;
+        }
 
         table {
             width: 100%;
@@ -139,6 +184,7 @@
             margin: 10px 0;
             border-radius: 8px;
             overflow: hidden;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
         }
 
         th, td {
@@ -155,9 +201,54 @@
             text-align: center;
         }
 
-        th:first-child, td:first-child { text-align: center; width: 40px; }
-        tr:nth-child(even) { background-color: #f0f4f8; }
-        tr:hover { background-color: #e9f5ff; }
+        th:first-child, td:first-child {
+            text-align: center;
+            width: 40px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+
+        tr:hover {
+            background-color: #e9f5ff;
+        }
+
+        .rating-table-wrapper {
+            margin-top: 18px;
+            text-align: center;
+        }
+
+        .rating-table-wrapper h2 {
+            font-family: "Segoe UI", Tahoma, Arial, 'Noto Sans', sans-serif;
+            margin-bottom: 8px;
+        }
+
+        .rating-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0 auto 20px auto;
+            font-family: "Segoe UI", Tahoma, Arial, 'Noto Sans', sans-serif;
+        }
+
+        .rating-table th, .rating-table td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .rating-table th {
+            background-color: #f0f0f5;
+            font-weight: 600;
+        }
+
+        .rating-table td:last-child {
+            text-align: left;
+        }
+
+        .rating-table .red-bg { background-color: #ff6b6b; color: white; }
+        .rating-table .yellow-bg { background-color: #ffd166; color: black; }
+        .rating-table .green-bg { background-color: #06d6a0; color: white; }
 
         .error-msg {
             background: #ffebee;
@@ -165,7 +256,9 @@
             padding: 15px;
             border-radius: 8px;
             text-align: center;
+            margin-bottom: 15px;
             display: none;
+            font-weight: bold;
         }
 
         footer {
@@ -173,14 +266,27 @@
             margin-top: 20px;
             color: rgba(255, 255, 255, 0.85);
             font-size: 0.8rem;
+            padding: 8px;
+            border-radius: 8px;
         }
 
         @media (max-width: 600px) {
             body { padding: 8px; }
+            header { padding: 10px 8px; }
             h1 { font-size: 1.5rem; }
+            .subtitle { font-size: 0.9rem; }
             .meal-link { padding: 8px 16px; font-size: 1rem; }
+            .container { padding: 12px; }
+            .buttons { gap: 6px; margin-bottom: 15px; }
             button { padding: 10px 12px; font-size: 0.85rem; min-width: 85px; }
             th, td { padding: 8px 6px; font-size: 0.9rem; }
+            footer { font-size: 0.75rem; margin-top: 15px; }
+        }
+
+        @media (max-width: 400px) {
+            .meal-link { padding: 6px 12px; font-size: 0.9rem; }
+            button { padding: 8px 10px; font-size: 0.8rem; min-width: 80px; }
+            th, td { padding: 7px 5px; font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -202,7 +308,7 @@
 
     <div class="container">
         <div id="errorMsg" class="error-msg"></div>
-        
+
         <div class="buttons">
             <button onclick="showDay('pn')" class="active">Пн</button>
             <button onclick="showDay('vt')">Вт</button>
@@ -216,118 +322,72 @@
         <div id="sr" class="schedule"></div>
         <div id="cht" class="schedule"></div>
         <div id="pt" class="schedule"></div>
+
+        <div class="rating-table-wrapper" aria-label="Границы оценок">
+            <table class="rating-table">
+                <tbody>
+                    <tr>
+                        <td class="red-bg">40 - 69</td>
+                        <td>3 - Удовлетворительно</td>
+                    </tr>
+                    <tr>
+                        <td class="yellow-bg">70 - 84</td>
+                        <td>4 - Хорошо</td>
+                    </tr>
+                    <tr>
+                        <td class="green-bg">85 - 100</td>
+                        <td>5 - Отлично</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <footer>&copy; 2025</footer>
 
     <script>
-        // Загрузка расписания из внешнего файла
         async function loadSchedule() {
             try {
                 const response = await fetch('schedule.json');
+                if (!response.ok) throw new Error('Файл schedule.json не найден');
                 const schedule = await response.json();
                 renderSchedule(schedule);
-                
-                if (!response.ok) {
-                    throw new Error('Файл schedule.txt не найден');
-                }
-                
-                const text = await response.text();
-                const schedule = parseSchedule(text);
-                renderSchedule(schedule);
-                
             } catch (error) {
                 showError('❌ Не удалось загрузить расписание: ' + error.message);
             }
         }
 
-        // Парсинг текста в объект расписания
-        function parseSchedule(text) {
-            const schedule = { pn: [], vt: [], sr: [], cht: [], pt: [] };
-            const dayMap = {
-                'ПН': 'pn', 'ПОНЕДЕЛЬНИК': 'pn',
-                'ВТ': 'vt', 'ВТОРНИК': 'vt',
-                'СР': 'sr', 'СРЕДА': 'sr',
-                'ЧТ': 'cht', 'ЧЕТВЕРГ': 'cht',
-                'ПТ': 'pt', 'ПЯТНИЦА': 'pt'
-            };
-
-            let currentDay = null;
-            const lines = text.split('\n');
-
-            lines.forEach(line => {
-                line = line.trim();
-                if (!line) return;
-
-                // Определяем день недели
-                const upperLine = line.toUpperCase();
-                for (const [key, value] of Object.entries(dayMap)) {
-                    if (upperLine === key || upperLine.startsWith(key + ' ') || upperLine.startsWith(key + ':')) {
-                        currentDay = value;
-                        return;
-                    }
-                }
-
-                // Парсим урок если день определён
-                if (currentDay && line.includes('|')) {
-                    const parts = line.split('|');
-                    if (parts.length === 3) {
-                        schedule[currentDay].push([
-                            parts[0].trim(),
-                            parts[1].trim(),
-                            parts[2].trim()
-                        ]);
-                    }
-                }
-            });
-
-            return schedule;
-        }
-
-        // Отрисовка расписания
         function renderSchedule(schedule) {
             const days = ['pn', 'vt', 'sr', 'cht', 'pt'];
-            
             days.forEach(day => {
                 const container = document.getElementById(day);
                 const lessons = schedule[day];
-                
                 if (!lessons || lessons.length === 0) {
                     container.innerHTML = '<p style="text-align:center;color:#999;">Нет уроков</p>';
                     return;
                 }
-
                 let html = '<table><tr><th>№</th><th>Время</th><th>Урок</th></tr>';
                 lessons.forEach(lesson => {
-                    html += `<tr><td>${lesson[0]}</td><td>${lesson[1]}</td><td>${lesson[2]}</td></tr>`;
+                    html += '<tr><td>' + lesson[0] + '</td><td>' + lesson[1] + '</td><td>' + lesson[2] + '</td></tr>';
                 });
                 html += '</table>';
-                
                 container.innerHTML = html;
             });
         }
 
-        // Показ ошибки
         function showError(message) {
-            const errorDiv = document.getElementById('errorMsg');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
+            const el = document.getElementById('errorMsg');
+            el.textContent = message;
+            el.style.display = 'block';
         }
 
-        // Переключение дней
         function showDay(day) {
-            document.querySelectorAll('.buttons button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`button[onclick="showDay('${day}')"]`).classList.add('active');
-            
-            document.querySelectorAll('.schedule').forEach(s => {
-                s.classList.remove('show');
-            });
+            document.querySelectorAll('.buttons button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('button[onclick="showDay(\'' + day + '\')"]').classList.add('active');
+            document.querySelectorAll('.schedule').forEach(s => s.classList.remove('show'));
             document.getElementById(day).classList.add('show');
         }
 
-        // Обработчики ссылок
         document.querySelectorAll('.meal-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -335,7 +395,6 @@
             });
         });
 
-        // Запуск при загрузке страницы
         loadSchedule();
     </script>
 </body>
