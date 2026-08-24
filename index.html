@@ -224,7 +224,9 @@
         // Загрузка расписания из внешнего файла
         async function loadSchedule() {
             try {
-                const response = await fetch('schedule.txt');
+                const response = await fetch('schedule.json');
+                const schedule = await response.json();
+                renderSchedule(schedule);
                 
                 if (!response.ok) {
                     throw new Error('Файл schedule.txt не найден');
