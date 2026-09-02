@@ -18,6 +18,8 @@
             --glass-shadow: 0 10px 40px rgba(40, 30, 110, 0.20), inset 0 1px 0 var(--glass-inner), inset 0 -1px 0 rgba(255, 255, 255, 0.08);
             --pill-active: rgba(255, 255, 255, 0.75);
             --card-pad: 16px;
+            --tile: 38px;
+            --picto: 38px;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -249,36 +251,63 @@
             content: "";
             position: absolute;
             top: 0;
-            left: calc(var(--card-pad) + 60px);
+            left: calc(var(--card-pad) + var(--tile) + var(--picto) + 24px);
             right: var(--card-pad);
             height: 1px;
             background: var(--divider);
         }
         .tile {
             flex: none;
-            width: 48px;
-            height: 48px;
-            border-radius: 13.5px;
+            width: var(--tile);
+            height: var(--tile);
+            border-radius: 11px;
             display: grid;
             place-items: center;
-            color: #fff;
-            font-size: 17px;
-            font-weight: 700;
-            background: linear-gradient(145deg, var(--c1), var(--c2));
-            box-shadow: 0 5px 14px rgba(30, 30, 80, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+            font-variant-numeric: tabular-nums;
+            color: var(--text);
+            background: rgba(120, 120, 128, 0.10);
+            border: 1px solid rgba(120, 120, 128, 0.14);
+        }
+        @media (prefers-color-scheme: dark) {
+            .tile { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.12); }
+        }
+
+        /* ── Столбец пиктограмм-смайликов ────────────────────────────── */
+        .picto {
+            flex: none;
+            width: var(--picto);
+            height: var(--picto);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 21px;
+            line-height: 1;
+            background: rgba(255, 255, 255, 0.38);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        }
+        @media (prefers-color-scheme: dark) {
+            .picto {
+                background: rgba(255, 255, 255, 0.10);
+                border-color: rgba(255, 255, 255, 0.16);
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+            }
         }
         .lesson .info { flex: 1; min-width: 0; }
         .lesson .name {
-            font-size: 16.5px;
-            font-weight: 600;
-            letter-spacing: -0.2px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .lesson .time {
-            margin-top: 2px;
-            font-size: 14px;
+            margin-top: 3px;
+            font-size: 13.5px;
             font-weight: 500;
             color: var(--text2);
             font-variant-numeric: tabular-nums;
@@ -436,9 +465,10 @@
         @media (max-width: 420px) {
             .hero h1 { font-size: 28px; }
             .hero-icon { width: 52px; height: 52px; font-size: 24px; }
-            .lesson .name { font-size: 15.5px; }
-            .tile { width: 44px; height: 44px; font-size: 15.5px; }
-            .lesson:not(:first-child)::before { left: calc(var(--card-pad) + 56px); }
+            .lesson .name { font-size: 16.5px; }
+            :root { --tile: 34px; --picto: 34px; }
+            .tile { font-size: 14px; }
+            .picto { font-size: 18px; border-radius: 10px; }
         }
     </style>
 </head>
@@ -511,47 +541,52 @@
             { key: 'pt', name: 'Пятница' }
         ];
 
-        const SUBJECT_STYLES = [
-            { test: /матем/i,        c1: '#0a84ff', c2: '#5e5ce6' },
-            { test: /рус/i,          c1: '#ff375f', c2: '#ff453a' },
-            { test: /окр/i,          c1: '#30d158', c2: '#34c759' },
-            { test: /чтение|чт\b|литер/i, c1: '#ff9f0a', c2: '#ff9500' },
-            { test: /музык/i,        c1: '#bf5af2', c2: '#af52de' },
-            { test: /физ/i,          c1: '#5ac8fa', c2: '#0a84ff' },
-            { test: /изо/i,          c1: '#ff6482', c2: '#ff2d55' },
-            { test: /технолог/i,     c1: '#a2845e', c2: '#8e6e45' },
-            { test: /информ|ит\b/i,  c1: '#64d2ff', c2: '#32ade6' },
-            { test: /анг/i,          c1: '#0a84ff', c2: '#007aff' },
-            { test: /класс/i,        c1: '#5e5ce6', c2: '#7a6cf0' },
-            { test: /игр/i,          c1: '#ffd60a', c2: '#ff9f0a' },
-            { test: /бассейн/i,      c1: '#64d2ff', c2: '#00c7be' },
-            { test: /сп\b/i,         c1: '#8e8e93', c2: '#636366' },
-            { test: /прогулк/i,      c1: '#34c759', c2: '#28a745' }
+        /* Пиктограммы-смайлики: фолбэк, если в schedule.json у урока нет эмодзи */
+        const SUBJECT_EMOJI = [
+            { test: /матем/i,        emoji: '🧮' },
+            { test: /рус/i,          emoji: '📖' },
+            { test: /окр/i,          emoji: '🌍' },
+            { test: /чтение|чт\b|литер/i, emoji: '📚' },
+            { test: /музык/i,        emoji: '🎵' },
+            { test: /физ/i,          emoji: '🏃' },
+            { test: /изо/i,          emoji: '🎨' },
+            { test: /технолог/i,     emoji: '🔧' },
+            { test: /информ|ит\b/i,  emoji: '💻' },
+            { test: /анг/i,          emoji: '🌐' },
+            { test: /класс/i,        emoji: '👩‍🏫' },
+            { test: /игр/i,          emoji: '🎮' },
+            { test: /бассейн/i,      emoji: '🏊' },
+            { test: /сп$/i,          emoji: '📝' },
+            { test: /прогулк/i,      emoji: '🌳' }
         ];
-        const FALLBACK_COLORS = [
-            ['#0a84ff', '#5e5ce6'], ['#ff375f', '#ff9f0a'], ['#30d158', '#0a84ff'],
-            ['#bf5af2', '#ff6482'], ['#ff9f0a', '#ffd60a'], ['#5ac8fa', '#007aff']
-        ];
+        const EMOJI_POOL = ['✏️', '📘', '🎯', '🧩', '🗺️', '🗓️'];
+
+        const EMOJI_HEAD = /^(?:[\p{Extended_Pictographic}\u{200D}\uFE0F])+/u;
+
+        function extractEmoji(text) {
+            const m = String(text).match(EMOJI_HEAD);
+            return m ? m[0] : '';
+        }
 
         function stripEmoji(text) {
-            return text.replace(/^\p{Extended_Pictographic}+(?:\s*)/u, '').trim();
+            return String(text).replace(EMOJI_HEAD, '').trim();
         }
 
         function lessonRow(lesson, index) {
             const num = lesson[0];
             const time = lesson[1];
             const raw = String(lesson[2] || '');
+            const emoji = extractEmoji(raw) ||
+                ((SUBJECT_EMOJI.find(s => s.test.test(raw)) || {}).emoji) ||
+                EMOJI_POOL[index % EMOJI_POOL.length];
             const name = stripEmoji(raw) || raw;
-            const match = SUBJECT_STYLES.find(s => s.test.test(raw)) ||
-                          FALLBACK_COLORS[index % FALLBACK_COLORS.length];
-            const style = Array.isArray(match) ? { c1: match[0], c2: match[1] } : match;
             const isWalk = /прогулк/i.test(raw);
 
-            const tile = isWalk ? '🌳' : num;
             const right = isWalk ? '<span class="walk-tag">Перемена</span>' : '<span class="chev">›</span>';
 
-            return '<div class="lesson' + (isWalk ? ' walk' : '') + '" style="--i:' + index + ';--c1:' + style.c1 + ';--c2:' + style.c2 + '">' +
-                '<div class="tile">' + tile + '</div>' +
+            return '<div class="lesson' + (isWalk ? ' walk' : '') + '" style="--i:' + index + '">' +
+                '<div class="tile">' + num + '</div>' +
+                '<div class="picto" aria-hidden="true">' + emoji + '</div>' +
                 '<div class="info"><div class="name">' + name + '</div><div class="time">' + time + '</div></div>' +
                 right +
                 '</div>';
@@ -565,7 +600,7 @@
                     box.innerHTML = '<p class="empty">Нет уроков</p>';
                     return;
                 }
-                box.innerHTML = lessons.map(lessonRow).join('');
+                box.innerHTML = lessons.map((lesson, i) => lessonRow(lesson, i)).join('');
             });
         }
 
