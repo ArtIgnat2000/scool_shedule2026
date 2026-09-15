@@ -583,7 +583,7 @@
             <span class="avatar" aria-hidden="true">⏰</span>
             <span class="texts">
                 <span class="title">Начало уроков в 8:30</span>
-                <span class="sub">1-й урок 8:30–9:10 · уроки по 40 минут</span>
+                <span class="sub">1-й урок 8:30–9:10 · как на картинке, исправлено с 8:00</span>
             </span>
         </div>
 
@@ -650,8 +650,8 @@
         const SCHOOL_START_H = 8;
         const SCHOOL_START_M = 30;
         const LESSON_DURATION = 40; // минут
-        // Перемены после каждого урока: 20,10,20,20,10,10,20 — как на картинке расписания
-        const BREAKS = [20, 10, 20, 20, 10, 10, 20];
+        // Перемены как на картинке: 20,20,10,20,10,10,10 — исправлено, 1-й урок 8:30
+        const BREAKS = [20, 20, 10, 20, 10, 10, 10];
 
         function fmtTime(totalMinutes) {
             const h = Math.floor(totalMinutes / 60) % 24;
