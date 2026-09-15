@@ -21,7 +21,6 @@
             --tile: 38px;
             --picto: 38px;
         }
-
         @media (prefers-color-scheme: dark) {
             :root {
                 --text: #ffffff;
@@ -35,11 +34,8 @@
                 --pill-active: rgba(255, 255, 255, 0.22);
             }
         }
-
         * { box-sizing: border-box; }
-
         html, body { margin: 0; padding: 0; }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -50,8 +46,6 @@
             overflow-x: hidden;
             touch-action: manipulation;
         }
-
-        /* ── Живой градиентный фон в духе iOS 26 ─────────────────────── */
         .bg {
             position: fixed;
             inset: 0;
@@ -70,7 +64,6 @@
         .b3 { width: 48vmax; height: 48vmax; bottom: -18vmax; left: 10vmax; background: radial-gradient(circle, #ff9ad5 0%, transparent 65%); animation: drift3 38s ease-in-out infinite alternate; }
         .b4 { width: 42vmax; height: 42vmax; bottom: -12vmax; right: -8vmax; background: radial-gradient(circle, #54e6c0 0%, transparent 65%); animation: drift1 44s ease-in-out infinite alternate-reverse; }
         .b5 { width: 34vmax; height: 34vmax; top: 34%; left: 30%; background: radial-gradient(circle, #ffd166 0%, transparent 65%); opacity: 0.5; animation: drift2 50s ease-in-out infinite alternate-reverse; }
-
         @media (prefers-color-scheme: dark) {
             .bg { background: linear-gradient(170deg, #141238 0%, #1c1440 45%, #301438 100%); }
             .b1 { background: radial-gradient(circle, #2454ff 0%, transparent 65%); opacity: 0.6; }
@@ -79,19 +72,14 @@
             .b4 { background: radial-gradient(circle, #0e9f7e 0%, transparent 65%); opacity: 0.55; }
             .b5 { background: radial-gradient(circle, #8a6d00 0%, transparent 65%); opacity: 0.4; }
         }
-
         @keyframes drift1 { from { transform: translate(0, 0) scale(1); } to { transform: translate(6vmax, 4vmax) scale(1.12); } }
         @keyframes drift2 { from { transform: translate(0, 0) scale(1.05); } to { transform: translate(-5vmax, 5vmax) scale(1); } }
         @keyframes drift3 { from { transform: translate(0, 0) scale(1); } to { transform: translate(4vmax, -5vmax) scale(1.15); } }
-
-        /* ── Каркас приложения ───────────────────────────────────────── */
         .app {
             max-width: 520px;
             margin: 0 auto;
             padding: calc(20px + env(safe-area-inset-top)) 16px 128px;
         }
-
-        /* ── Шапка: крупный заголовок ────────────────────────────────── */
         .hero {
             display: flex;
             align-items: center;
@@ -139,8 +127,50 @@
             background: var(--tint);
             box-shadow: 0 0 10px var(--tint);
         }
-
-        /* ── Стекло ───────────────────────────────────────────────────── */
+        .hero-start {
+            margin-top: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12.5px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            color: var(--text);
+            background: rgba(255,255,255,0.55);
+            border: 1px solid rgba(255,255,255,0.65);
+            padding: 4px 10px;
+            border-radius: 999px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 2px 8px rgba(40,30,110,0.12);
+        }
+        @media (prefers-color-scheme: dark) {
+            .hero-start {
+                background: rgba(255,255,255,0.12);
+                border-color: rgba(255,255,255,0.18);
+            }
+        }
+        .start-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-radius: 20px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+        }
+        .start-card .avatar {
+            flex: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+            background: linear-gradient(145deg, #4c6fff, #9b5cff);
+            color: white;
+            box-shadow: 0 6px 16px rgba(76,111,255,0.35), inset 0 1px 0 rgba(255,255,255,0.4);
+        }
+        .start-card .texts { flex: 1; min-width: 0; }
+        .start-card .title { font-size: 15px; font-weight: 800; letter-spacing: -0.2px; display: block; }
+        .start-card .sub { font-size: 13px; font-weight: 500; color: var(--text2); display: block; margin-top: 1px; }
         .glass {
             position: relative;
             background: var(--glass-bg);
@@ -153,8 +183,6 @@
             .glass { background: rgba(248, 250, 255, 0.92); }
             @media (prefers-color-scheme: dark) { .glass { background: rgba(28, 24, 56, 0.92); } }
         }
-
-        /* ── Карточка-ссылка (как карточки в DopSchedule) ─────────────── */
         .nav-card {
             display: flex;
             align-items: center;
@@ -196,8 +224,6 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
-        /* ── Сегментный переключатель дней ───────────────────────────── */
         .segmented {
             display: flex;
             gap: 2px;
@@ -245,8 +271,6 @@
             margin: 3px auto -3px;
             opacity: 0.9;
         }
-
-        /* ── Карточка дня ─────────────────────────────────────────────── */
         .day-card { border-radius: 24px; padding: 6px 0; overflow: hidden; }
         .day-head {
             display: flex;
@@ -273,10 +297,8 @@
             border-radius: 999px;
         }
         .today-chip.show { display: inline-flex; }
-
         .schedule { display: none; }
         .schedule.show { display: block; }
-
         .lesson {
             position: relative;
             display: flex;
@@ -317,8 +339,6 @@
         @media (prefers-color-scheme: dark) {
             .tile { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.12); }
         }
-
-        /* ── Столбец пиктограмм-смайликов ────────────────────────────── */
         .picto {
             flex: none;
             width: var(--picto);
@@ -363,8 +383,6 @@
             opacity: 0.55;
             margin-top: -3px;
         }
-
-        /* Прогулка — акцентная зелёная строка */
         .lesson.walk {
             background: rgba(52, 199, 89, 0.13);
             box-shadow: inset 0 1px 0 rgba(52, 199, 89, 0.18), inset 0 -1px 0 rgba(52, 199, 89, 0.18);
@@ -383,7 +401,6 @@
             border-radius: 999px;
         }
         @media (prefers-color-scheme: dark) { .walk-tag { color: #5cf28a; } }
-
         .empty {
             text-align: center;
             color: var(--text2);
@@ -392,8 +409,6 @@
             padding: 34px 16px 38px;
             margin: 0;
         }
-
-        /* ── Шкала оценок ─────────────────────────────────────────────── */
         .rating-card { margin-top: 14px; border-radius: 24px; padding: 6px 0; overflow: hidden; }
         .rating-card h3 {
             margin: 0;
@@ -437,8 +452,6 @@
         .rate-badge.yellow { background: linear-gradient(145deg, #ffe25e, #ffd60a); color: #5c4a00; }
         .rate-badge.green { background: linear-gradient(145deg, #4ade80, #30d158); }
         .rate-text { font-size: 15.5px; font-weight: 600; }
-
-        /* ── Ошибка ───────────────────────────────────────────────────── */
         .error-card {
             border-radius: 24px;
             padding: 16px;
@@ -452,8 +465,6 @@
         }
         .error-card.show { display: block; }
         @media (prefers-color-scheme: dark) { .error-card { color: #ff8a80; } }
-
-        /* ── Плавающий док внизу (Liquid Glass) ───────────────────────── */
         .dock {
             position: fixed;
             left: 50%;
@@ -496,7 +507,6 @@
             .dock-btn { padding: 8px 11px; font-size: 13px; gap: 6px; }
             .dock-ico { width: 26px; height: 26px; font-size: 14px; }
         }
-
         footer {
             text-align: center;
             font-size: 12px;
@@ -504,7 +514,6 @@
             color: var(--text2);
             padding: 6px 0 0;
         }
-
         @media (max-width: 420px) {
             .hero h1 { font-size: 28px; }
             .hero-icon { width: 52px; height: 52px; font-size: 24px; }
@@ -523,7 +532,6 @@
         <div class="blob b4"></div>
         <div class="blob b5"></div>
     </div>
-
     <main class="app">
         <header class="hero">
             <div class="hero-icon" aria-hidden="true">📚</div>
@@ -531,9 +539,16 @@
                 <h1>Расписание</h1>
                 <div class="subtitle">4 «Б» класс</div>
                 <div class="hero-date" id="heroDate"></div>
+                <div class="hero-start" aria-label="Начало уроков">⏰ Начало уроков в 8:30</div>
             </div>
         </header>
-
+        <div class="start-card glass" aria-label="Информация о начале уроков">
+            <span class="avatar" aria-hidden="true">⏰</span>
+            <span class="texts">
+                <span class="title">Начало уроков в 8:30</span>
+                <span class="sub">1-й урок 8:30–9:10 · как на картинке, исправлено с 8:00</span>
+            </span>
+        </div>
         <a href="https://artignat2000.github.io/school/" class="nav-card glass" aria-label="V labs — школа программирования">
             <span class="avatar" aria-hidden="true">🧪</span>
             <span class="texts">
@@ -542,7 +557,6 @@
             </span>
             <span class="chev">›</span>
         </a>
-
         <div class="segmented glass" role="tablist" aria-label="День недели">
             <div class="seg-indicator" aria-hidden="true"></div>
             <button class="seg" type="button" role="tab" data-day="pn">Пн</button>
@@ -551,9 +565,7 @@
             <button class="seg" type="button" role="tab" data-day="cht">Чт</button>
             <button class="seg" type="button" role="tab" data-day="pt">Пт</button>
         </div>
-
         <div id="errorMsg" class="error-card glass" role="alert"></div>
-
         <section class="day-card glass" aria-label="Уроки дня">
             <div class="day-head">
                 <h2 id="dayTitle">Понедельник</h2>
@@ -565,26 +577,21 @@
             <div id="cht" class="schedule"></div>
             <div id="pt" class="schedule"></div>
         </section>
-
         <section class="rating-card glass" aria-label="Шкала оценок">
             <h3>Шкала оценок</h3>
             <div class="rate-row"><span class="rate-badge red">40–69</span><span class="rate-text">3 · Удовлетворительно</span></div>
             <div class="rate-row"><span class="rate-badge yellow">70–84</span><span class="rate-text">4 · Хорошо</span></div>
             <div class="rate-row"><span class="rate-badge green">85–100</span><span class="rate-text">5 · Отлично</span></div>
         </section>
-
-        <footer>© 2026 · Расписание 4 «Б» класса</footer>
+        <footer>© 2026 · Расписание 4 «Б» класса · Начало уроков в 8:30</footer>
     </main>
-
     <nav class="dock glass" aria-label="Разделы">
         <a href="https://artignat2000.github.io/meal-schedule/" class="dock-btn"><span class="dock-ico" aria-hidden="true">🍽️</span><span>Еда</span></a>
         <a href="https://artignat2000.github.io/RaspisCanicyl/" class="dock-btn"><span class="dock-ico" aria-hidden="true">🌴</span><span>Каникулы</span></a>
         <a href="https://artignat2000.github.io/DopSchedule/" class="dock-btn"><span class="dock-ico" aria-hidden="true">💡</span><span>Доп</span></a>
     </nav>
-
     <script>
         'use strict';
-
         const DAYS = [
             { key: 'pn', name: 'Понедельник' },
             { key: 'vt', name: 'Вторник' },
@@ -592,8 +599,27 @@
             { key: 'cht', name: 'Четверг' },
             { key: 'pt', name: 'Пятница' }
         ];
-
-        /* Пиктограммы-смайлики: фолбэк, если в schedule.json у урока нет эмодзи */
+        const SCHOOL_START_H = 8;
+        const SCHOOL_START_M = 30;
+        const LESSON_DURATION = 40;
+        const BREAKS = [20, 20, 10, 20, 10, 10, 10];
+        function fmtTime(totalMinutes) {
+            const h = Math.floor(totalMinutes / 60) % 24;
+            const m = totalMinutes % 60;
+            return h + ':' + String(m).padStart(2, '0');
+        }
+        function generateTimes(count) {
+            const times = [];
+            let cur = SCHOOL_START_H * 60 + SCHOOL_START_M;
+            for (let i = 0; i < count; i++) {
+                const start = cur;
+                const end = start + LESSON_DURATION;
+                times.push(fmtTime(start) + '–' + fmtTime(end));
+                const br = BREAKS[i] !== undefined ? BREAKS[i] : 10;
+                cur = end + br;
+            }
+            return times;
+        }
         const SUBJECT_EMOJI = [
             { test: /матем/i,        emoji: '🧮' },
             { test: /рус/i,          emoji: '📖' },
@@ -612,38 +638,39 @@
             { test: /прогулк/i,      emoji: '🌳' }
         ];
         const EMOJI_POOL = ['✏️', '📘', '🎯', '🧩', '🗺️', '🗓️'];
-
         const EMOJI_HEAD = /^(?:[\p{Extended_Pictographic}\u{200D}\uFE0F])+/u;
-
         function extractEmoji(text) {
             const m = String(text).match(EMOJI_HEAD);
             return m ? m[0] : '';
         }
-
         function stripEmoji(text) {
             return String(text).replace(EMOJI_HEAD, '').trim();
         }
-
-        function lessonRow(lesson, index) {
+        function correctTimeString(timeStr, fallback) {
+            let t = String(timeStr || fallback || '');
+            if (/^8[:.]00/.test(t.trim())) {
+                t = t.replace(/^8[:.]00/, '8:30');
+            }
+            return t;
+        }
+        function lessonRow(lesson, index, computedTime) {
             const num = lesson[0];
-            const time = lesson[1];
+            const rawTime = lesson[1];
+            const time = computedTime || correctTimeString(rawTime, '');
             const raw = String(lesson[2] || '');
             const emoji = extractEmoji(raw) ||
                 ((SUBJECT_EMOJI.find(s => s.test.test(raw)) || {}).emoji) ||
                 EMOJI_POOL[index % EMOJI_POOL.length];
             const name = stripEmoji(raw) || raw;
             const isWalk = /прогулк/i.test(raw);
-
             const right = isWalk ? '<span class="walk-tag">Перемена</span>' : '<span class="chev">›</span>';
-
-            return '<div class="lesson' + (isWalk ? ' walk' : '') + '" style="--i:' + index + '">' +
+            return '<div class="lesson' + (isWalk ? ' walk' : '') + '\" style=\"--i:' + index + '\">' +
                 '<div class="tile">' + num + '</div>' +
                 '<div class="picto" aria-hidden="true">' + emoji + '</div>' +
                 '<div class="info"><div class="name">' + name + '</div><div class="time">' + time + '</div></div>' +
                 right +
                 '</div>';
         }
-
         function renderSchedule(schedule) {
             DAYS.forEach(day => {
                 const box = document.getElementById(day.key);
@@ -652,15 +679,17 @@
                     box.innerHTML = '<p class="empty">Нет уроков</p>';
                     return;
                 }
-                box.innerHTML = lessons.map((lesson, i) => lessonRow(lesson, i)).join('');
+                const times = generateTimes(lessons.length);
+                box.innerHTML = lessons.map((lesson, i) => {
+                    const computed = times[i] || lesson[1];
+                    return lessonRow(lesson, i, computed);
+                }).join('');
             });
         }
-
         function todayKey() {
-            const d = new Date().getDay(); // 1 = Пн ... 5 = Пт
+            const d = new Date().getDay();
             return (d >= 1 && d <= 5) ? DAYS[d - 1].key : null;
         }
-
         function moveIndicator() {
             const seg = document.querySelector('.segmented');
             const ind = seg.querySelector('.seg-indicator');
@@ -669,7 +698,6 @@
             ind.style.width = btn.offsetWidth + 'px';
             ind.style.left = btn.offsetLeft + 'px';
         }
-
         function showDay(key) {
             const info = DAYS.find(d => d.key === key) || DAYS[0];
             document.getElementById('dayTitle').textContent = info.name;
@@ -681,13 +709,11 @@
             document.querySelectorAll('.schedule').forEach(s => s.classList.toggle('show', s.id === key));
             moveIndicator();
         }
-
         function showError(message) {
             const el = document.getElementById('errorMsg');
             el.textContent = '⚠️ ' + message;
             el.classList.add('show');
         }
-
         async function loadSchedule() {
             try {
                 const response = await fetch('schedule.json', { cache: 'no-cache' });
@@ -699,34 +725,24 @@
                 showError('Не удалось загрузить расписание: ' + error.message);
             }
         }
-
-        // Дата в шапке
         (function initHeroDate() {
             const el = document.getElementById('heroDate');
             const text = new Intl.DateTimeFormat('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })
                 .format(new Date());
             el.textContent = text.charAt(0).toUpperCase() + text.slice(1);
         })();
-
-        // Подсветка «сегодня» в сегментах
         const today = todayKey();
-        if (today) document.querySelector('.seg[data-day="' + today + '"]').classList.add('today');
-
-        // Переключение дней
+        if (today) document.querySelector('.seg[data-day=\"' + today + '\"]').classList.add('today');
         document.querySelectorAll('.seg').forEach(btn => {
             btn.addEventListener('click', () => showDay(btn.dataset.day));
         });
-
-        // Внешние ссылки
         document.querySelectorAll('.dock-btn').forEach(link => {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
                 window.location.href = this.getAttribute('href').trim();
             });
         });
-
         window.addEventListener('resize', moveIndicator);
-
         loadSchedule();
     </script>
 </body>
