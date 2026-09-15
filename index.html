@@ -139,6 +139,50 @@
             background: var(--tint);
             box-shadow: 0 0 10px var(--tint);
         }
+        .hero-start {
+            margin-top: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12.5px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            color: var(--text);
+            background: rgba(255,255,255,0.55);
+            border: 1px solid rgba(255,255,255,0.65);
+            padding: 4px 10px;
+            border-radius: 999px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 2px 8px rgba(40,30,110,0.12);
+        }
+        @media (prefers-color-scheme: dark) {
+            .hero-start {
+                background: rgba(255,255,255,0.12);
+                border-color: rgba(255,255,255,0.18);
+            }
+        }
+        .start-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-radius: 20px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+        }
+        .start-card .avatar {
+            flex: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+            background: linear-gradient(145deg, #4c6fff, #9b5cff);
+            color: white;
+            box-shadow: 0 6px 16px rgba(76,111,255,0.35), inset 0 1px 0 rgba(255,255,255,0.4);
+        }
+        .start-card .texts { flex: 1; min-width: 0; }
+        .start-card .title { font-size: 15px; font-weight: 800; letter-spacing: -0.2px; display: block; }
+        .start-card .sub { font-size: 13px; font-weight: 500; color: var(--text2); display: block; margin-top: 1px; }
 
         /* ── Стекло ───────────────────────────────────────────────────── */
         .glass {
@@ -531,8 +575,17 @@
                 <h1>Расписание</h1>
                 <div class="subtitle">4 «Б» класс</div>
                 <div class="hero-date" id="heroDate"></div>
+                <div class="hero-start" aria-label="Начало уроков">⏰ Начало уроков в 8:30</div>
             </div>
         </header>
+
+        <div class="start-card glass" aria-label="Информация о начале уроков">
+            <span class="avatar" aria-hidden="true">⏰</span>
+            <span class="texts">
+                <span class="title">Начало уроков в 8:30</span>
+                <span class="sub">1-й урок 8:30–9:10 · уроки по 40 минут</span>
+            </span>
+        </div>
 
         <a href="https://artignat2000.github.io/school/" class="nav-card glass" aria-label="V labs — школа программирования">
             <span class="avatar" aria-hidden="true">🧪</span>
@@ -573,7 +626,7 @@
             <div class="rate-row"><span class="rate-badge green">85–100</span><span class="rate-text">5 · Отлично</span></div>
         </section>
 
-        <footer>© 2026 · Расписание 4 «Б» класса</footer>
+        <footer>© 2026 · Расписание 4 «Б» класса · Начало уроков в 8:30</footer>
     </main>
 
     <nav class="dock glass" aria-label="Разделы">
@@ -592,6 +645,32 @@
             { key: 'cht', name: 'Четверг' },
             { key: 'pt', name: 'Пятница' }
         ];
+
+        // ── Правильное время начала уроков: 8:30 (исправлено с 8:00) ──
+        const SCHOOL_START_H = 8;
+        const SCHOOL_START_M = 30;
+        const LESSON_DURATION = 40; // минут
+        // Перемены после каждого урока: 20,10,20,20,10,10,20 — как на картинке расписания
+        const BREAKS = [20, 10, 20, 20, 10, 10, 20];
+
+        function fmtTime(totalMinutes) {
+            const h = Math.floor(totalMinutes / 60) % 24;
+            const m = totalMinutes % 60;
+            return h + ':' + String(m).padStart(2, '0');
+        }
+
+        function generateTimes(count) {
+            const times = [];
+            let cur = SCHOOL_START_H * 60 + SCHOOL_START_M;
+            for (let i = 0; i < count; i++) {
+                const start = cur;
+                const end = start + LESSON_DURATION;
+                times.push(fmtTime(start) + '–' + fmtTime(end));
+                const br = BREAKS[i] !== undefined ? BREAKS[i] : 10;
+                cur = end + br;
+            }
+            return times;
+        }
 
         /* Пиктограммы-смайлики: фолбэк, если в schedule.json у урока нет эмодзи */
         const SUBJECT_EMOJI = [
@@ -624,9 +703,18 @@
             return String(text).replace(EMOJI_HEAD, '').trim();
         }
 
-        function lessonRow(lesson, index) {
+        function correctTimeString(timeStr, fallback) {
+            let t = String(timeStr || fallback || '');
+            if (/^8[:.]00/.test(t.trim())) {
+                t = t.replace(/^8[:.]00/, '8:30');
+            }
+            return t;
+        }
+
+        function lessonRow(lesson, index, computedTime) {
             const num = lesson[0];
-            const time = lesson[1];
+            const rawTime = lesson[1];
+            const time = computedTime || correctTimeString(rawTime, '');
             const raw = String(lesson[2] || '');
             const emoji = extractEmoji(raw) ||
                 ((SUBJECT_EMOJI.find(s => s.test.test(raw)) || {}).emoji) ||
@@ -652,7 +740,11 @@
                     box.innerHTML = '<p class="empty">Нет уроков</p>';
                     return;
                 }
-                box.innerHTML = lessons.map((lesson, i) => lessonRow(lesson, i)).join('');
+                const times = generateTimes(lessons.length);
+                box.innerHTML = lessons.map((lesson, i) => {
+                    const computed = times[i] || lesson[1];
+                    return lessonRow(lesson, i, computed);
+                }).join('');
             });
         }
 
